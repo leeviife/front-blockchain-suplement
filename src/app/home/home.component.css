@@ -1,0 +1,14 @@
+.content-general{
+    padding: 50px!important;
+}
+mat-toolbar{
+    background-color: rgb(24, 148, 243);
+    color: #ffff;
+}
+.coluna-bt-cad{
+    text-align: end;
+}
+#bt-cad{
+    background-color: rgb(24, 148, 243);
+color: #fff;
+}
