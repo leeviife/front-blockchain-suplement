@@ -1,27 +1,28 @@
-# FrontBlockchainSuplement
+# Projeto de Integração com o Contrato Inteligente de Rastreamento de Suplementos Alimentares
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.2.
+Este é um projeto Angular que permite aos usuários interagir com o contrato inteligente Solidity de rastreamento de suplementos alimentares na blockchain Ethereum. O projeto é configurado para se integrar com o Metamask.
 
-## Development server
+## Funcionalidades Principais
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Visualização das informações de suplementos adicionadas ao contrato inteligente.
+- Assinatura de informações de suplementos usando o Metamask.
+- Verificação de autenticidade das informações de suplementos.
 
-## Code scaffolding
+## Pré-requisitos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Certifique-se de ter o seguinte instalado em sua máquina:
 
-## Build
+- [Node.js](https://nodejs.org/)
+- [Angular CLI](https://angular.io/cli)
+- [Metamask](https://metamask.io/) configurado com uma carteira Ethereum.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Configuração do Metamask
 
-## Running unit tests
+Certifique-se de que o Metamask esteja configurado corretamente e conectado à rede Ethereum desejada. Se você estiver usando uma rede local Ethereum para desenvolvimento, adicione a rede ao Metamask com as configurações apropriadas.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Uso
+Acesse o aplicativo no navegador.
 
-## Running end-to-end tests
+Certifique-se de estar conectado à sua conta Metamask.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Use a interface do usuário para visualizar informações de suplementos, assinar informações usando o Metamask e verificar a autenticidade das informações.

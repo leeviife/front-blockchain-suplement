@@ -37,11 +37,11 @@
       </ng-container>
 
       <!-- Fruit Column -->
-      <ng-container matColumnDef="protein_content">
+      <ng-container matColumnDef="proteins">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Protein Content
         </th>
-        <td mat-cell *matCellDef="let row">{{ row.protein_content }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.proteins }}</td>
       </ng-container>
 
       <ng-container matColumnDef="carbs">
@@ -49,9 +49,9 @@
         <td mat-cell *matCellDef="let row">{{ row.carbs }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="fact">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Facts</th>
-        <td mat-cell *matCellDef="let row">{{ row.fact }}</td>
+      <ng-container matColumnDef="fats">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fats</th>
+        <td mat-cell *matCellDef="let row">{{ row.fats }}</td>
       </ng-container>
 
       <ng-container matColumnDef="expiry_date">
