@@ -10,15 +10,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ModalCreateComponent } from '../modal-create/modal-create.component';
+import { getSupplementTrackerContract } from '../shared/web3';
 
-export interface UserData {
-  id: string;
+export interface SupplementInfo {
   name: string;
   manufacturer: string;
-  proteins: string;
-  carbs: string;
-  fats: string;
-  expiry_date: string;
+  proteins: number;
+  carbs: number;
+  fats: number;
+  expiryDate: string;
 }
 export interface DialogData {
   animal: string;
@@ -54,25 +54,33 @@ export class HomeComponent {
     'fats',
     'expiry_date',
   ];
-  dataSource: MatTableDataSource<UserData>;
+
+  dataSource: MatTableDataSource<SupplementInfo>;
 
   constructor(public dialog: MatDialog) {
-    // Create 100 users
-    const users: UserData[] = [
-      {
-        id: 'string',
-        name: 'string',
-        manufacturer: 'string',
-        proteins: 'string',
-        carbs: 'string',
-        fats: 'string',
-        expiry_date: 'string',
-      },
-    ];
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource<SupplementInfo>([]);
   }
+
+  async ngOnInit() {
+    const supplementTracker = getSupplementTrackerContract();
+    if (!supplementTracker) return;
+
+    const supplement = (await supplementTracker.getSupplementInfo(
+      0
+    )) as SupplementInfo;
+
+    this.dataSource = new MatTableDataSource<SupplementInfo>(
+      [supplement].map((supplement) => ({
+        name: supplement.name,
+        manufacturer: supplement.manufacturer,
+        proteins: supplement.proteins,
+        carbs: supplement.carbs,
+        fats: supplement.fats,
+        expiryDate: supplement.expiryDate,
+      }))
+    );
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalCreateComponent, {
       data: { name: this.name, animal: this.animal },

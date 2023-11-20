@@ -18,7 +18,6 @@
   </div>
   <div class="mat-elevation-z8 tabela-list">
     <table mat-table [dataSource]="dataSource" matSort>
-      <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
         <td mat-cell *matCellDef="let row">{{ row.id }}</td>
@@ -27,7 +26,7 @@
       <!-- Progress Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td mat-cell *matCellDef="let row">{{ row.name }}%</td>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
       </ng-container>
 
       <!-- Name Column -->
@@ -41,22 +40,22 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Protein Content
         </th>
-        <td mat-cell *matCellDef="let row">{{ row.proteins }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.proteins }}g</td>
       </ng-container>
 
       <ng-container matColumnDef="carbs">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Carbs</th>
-        <td mat-cell *matCellDef="let row">{{ row.carbs }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.carbs }}g</td>
       </ng-container>
 
       <ng-container matColumnDef="fats">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fats</th>
-        <td mat-cell *matCellDef="let row">{{ row.fats }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.fats }}g</td>
       </ng-container>
 
       <ng-container matColumnDef="expiry_date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Expiry date</th>
-        <td mat-cell *matCellDef="let row">{{ row.expiry_date }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.expiryDate }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -72,7 +71,7 @@
 
     <mat-paginator
       [pageSizeOptions]="[5, 10, 25, 100]"
-      aria-label="Select page of users"
+      aria-label="Select page of supplements"
     ></mat-paginator>
   </div>
 </div>
