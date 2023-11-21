@@ -10,7 +10,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ModalCreateComponent } from '../modal-create/modal-create.component';
-import { getSupplementTrackerContract } from '../shared/web3';
+import {
+  getAccountAddress,
+  getSupplementTrackerContract,
+} from '../shared/web3';
 import { NgFor, NgIf } from '@angular/common';
 import { ModalDetailsComponent } from '../modal-details/modal-details.component';
 
@@ -21,6 +24,16 @@ export interface SupplementInfo {
   carbs: number;
   fats: number;
   expiryDate: string;
+}
+
+export interface Signature {
+  signer: string;
+  signature: string;
+  messageHash: string;
+}
+
+export interface SupplementInfoWithSignature extends SupplementInfo {
+  signatures: Signature[];
 }
 
 @Component({
@@ -56,12 +69,13 @@ export class HomeComponent {
     'details',
   ];
 
-  dataSource: MatTableDataSource<SupplementInfo>;
+  dataSource: MatTableDataSource<SupplementInfoWithSignature>;
   supplementTracker: any;
   expandedRow: number | null = null;
+  accountAddress: string | null = null;
 
   constructor(public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource<SupplementInfo>([]);
+    this.dataSource = new MatTableDataSource<SupplementInfoWithSignature>([]);
     this.supplementTracker = getSupplementTrackerContract();
   }
 
@@ -69,23 +83,19 @@ export class HomeComponent {
     if (!this.supplementTracker) return;
 
     const supplements =
-      (await this.supplementTracker.getSupplements()) as SupplementInfo[];
+      (await this.supplementTracker.getSupplements()) as SupplementInfoWithSignature[];
 
-    this.dataSource = new MatTableDataSource<SupplementInfo>(
+    this.dataSource = new MatTableDataSource<SupplementInfoWithSignature>(
       supplements.map((supplement, index) => ({
+        ...supplement,
         id: index,
-        name: supplement.name,
-        manufacturer: supplement.manufacturer,
-        proteins: supplement.proteins,
-        carbs: supplement.carbs,
-        fats: supplement.fats,
-        expiryDate: supplement.expiryDate,
       }))
     );
   }
 
   async ngOnInit() {
     this.fetchSupplements();
+    this.accountAddress = await getAccountAddress();
   }
 
   openDialog(): void {
@@ -102,13 +112,18 @@ export class HomeComponent {
     }
   }
 
+  isAlreadySigned(rowId: number) {
+    const supplement = this.dataSource.data[rowId];
+    return supplement.signatures.some(
+      (signature) => signature.signer === this.accountAddress
+    );
+  }
+
   async openDetails(rowId: number) {
     const supplement = this.dataSource.data[rowId];
-    const signatures = await this.supplementTracker.getSupplementSignatures(
-      rowId
-    );
+
     this.dialog.open(ModalDetailsComponent, {
-      data: { supplement, signatures },
+      data: supplement,
       minWidth: '43.5rem',
     });
   }
