@@ -1,11 +1,13 @@
+import { localEnvironment } from './environment.local';
+
 export const environment = {
   production: false,
   web3: {
     contracts: {
-      supplementTracker: '0xa5a82ED88cF30a3cd239C9F45825c06cEed60c6f',
+      supplementTracker: localEnvironment.supplementTracker,
     },
     account: {
-      privateKey: '', // Metamask private key
+      privateKey: localEnvironment.privateKey,
     },
   },
 };

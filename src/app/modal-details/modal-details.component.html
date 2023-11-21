@@ -76,13 +76,20 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="revoked">
+        <th mat-header-cell *matHeaderCellDef>Revoked</th>
+        <td mat-cell *matCellDef="let signature">
+          {{ signature.revoked }}
+        </td>
+      </ng-container>
+
       <tr
         mat-header-row
-        *matHeaderRowDef="['signer', 'signature', 'messageHash']"
+        *matHeaderRowDef="['signer', 'signature', 'messageHash', 'revoked']"
       ></tr>
       <tr
         mat-row
-        *matRowDef="let row; columns: ['signer', 'signature', 'messageHash']"
+        *matRowDef="let row; columns: ['signer', 'signature', 'messageHash', 'revoked']"
       ></tr>
     </table>
   </div>

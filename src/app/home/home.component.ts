@@ -16,6 +16,7 @@ import {
 } from '../shared/web3';
 import { NgFor, NgIf } from '@angular/common';
 import { ModalDetailsComponent } from '../modal-details/modal-details.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface SupplementInfo {
   name: string;
@@ -30,10 +31,12 @@ export interface Signature {
   signer: string;
   signature: string;
   messageHash: string;
+  revoked: boolean;
 }
 
 export interface SupplementInfoWithSignature extends SupplementInfo {
   signatures: Signature[];
+  authorizedSigners: string[];
 }
 
 @Component({
@@ -54,6 +57,7 @@ export interface SupplementInfoWithSignature extends SupplementInfo {
     MatPaginatorModule,
     NgFor,
     NgIf,
+    MatTooltipModule,
   ],
 })
 export class HomeComponent {
@@ -66,6 +70,7 @@ export class HomeComponent {
     'fats',
     'expiryDate',
     'signSupplement',
+    'revokeSign',
     'details',
   ];
 
@@ -115,7 +120,15 @@ export class HomeComponent {
   isAlreadySigned(rowId: number) {
     const supplement = this.dataSource.data[rowId];
     return supplement.signatures.some(
-      (signature) => signature.signer === this.accountAddress
+      (signature) =>
+        signature.signer === this.accountAddress && !signature.revoked
+    );
+  }
+
+  isSignAuthorized(rowId: number) {
+    const supplement = this.dataSource.data[rowId];
+    return supplement.authorizedSigners.some(
+      (signer) => signer === this.accountAddress
     );
   }
 
@@ -131,6 +144,12 @@ export class HomeComponent {
   async signSupplement(rowId: number) {
     const supplement = this.dataSource.data[rowId];
     await this.supplementTracker.signSupplement(rowId, supplement);
+    this.fetchSupplements();
+  }
+
+  async revokeSign(rowId: number) {
+    const supplement = this.dataSource.data[rowId];
+    await this.supplementTracker.revokeSignature(rowId, supplement);
     this.fetchSupplements();
   }
 }

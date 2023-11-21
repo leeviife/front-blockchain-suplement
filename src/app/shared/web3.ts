@@ -63,6 +63,14 @@ export const getSupplementTrackerContract = () => {
       });
   };
 
+  const revokeSignature = async (supplementId: number) => {
+    const accounts = await web3.eth.getAccounts();
+
+    return contract.methods.revokeSignature(supplementId).send({
+      from: accounts[0],
+    });
+  };
+
   const addSupplement = async (
     name: string,
     manufacturer: string,
@@ -113,10 +121,12 @@ export const getSupplementTrackerContract = () => {
     for (let index = 0; index < supplements.length; index++) {
       const supplement = supplements[index];
       const signatures = (await getSupplementSignatures(index)) as Signature[];
+      const authorizedSigners = (await getAuthorizedSigners(index)) as string[];
 
       supplementsWithSignatures.push({
         ...supplement,
         signatures,
+        authorizedSigners,
       });
     }
 
@@ -127,10 +137,16 @@ export const getSupplementTrackerContract = () => {
     return contract.methods.getSupplementSignatures(id).call();
   };
 
+  const getAuthorizedSigners = async (id: number) => {
+    return contract.methods.getAuthorizedSigners(id).call();
+  };
+
   return {
     signSupplement,
+    revokeSignature,
     addSupplement,
     getSupplements,
     getSupplementSignatures,
+    getAuthorizedSigners,
   };
 };

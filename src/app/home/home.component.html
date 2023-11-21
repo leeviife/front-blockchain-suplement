@@ -64,8 +64,26 @@
             mat-icon-button
             (click)="signSupplement(row.id)"
             [class.expanded]="expandedRow === row.id"
+						*ngIf="!isAlreadySigned(row.id)"
+						matTooltip="Assinar Suplemento"
+						[disabled]="!isSignAuthorized(row.id)"
           >
-					<mat-icon>vpn_key</mat-icon>
+					<mat-icon>edit_on</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+			<ng-container matColumnDef="revokeSign">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            (click)="revokeSign(row.id)"
+            [class.expanded]="expandedRow === row.id"
+						*ngIf="isAlreadySigned(row.id)"
+						matTooltip="Revogar Assinatura"
+          >
+					<mat-icon>edit_off</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -77,6 +95,7 @@
             mat-icon-button
             (click)="openDetails(row.id)"
             [class.expanded]="expandedRow === row.id"
+						matTooltip="Ver Detalhes"
           >
 					<mat-icon>security</mat-icon>
           </button>
