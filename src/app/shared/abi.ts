@@ -38,7 +38,7 @@ export const abi = [
       },
       {
         internalType: 'bytes32',
-        name: 'messageHash',
+        name: '_messageHash',
         type: 'bytes32',
       },
     ],
@@ -84,7 +84,7 @@ export const abi = [
       },
       {
         internalType: 'bytes32',
-        name: 'messageHash',
+        name: '_messageHash',
         type: 'bytes32',
       },
     ],
@@ -118,14 +118,8 @@ export const abi = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '_supplementId',
-        type: 'uint256',
-      },
-    ],
-    name: 'getSupplementInfo',
+    inputs: [],
+    name: 'getSupplements',
     outputs: [
       {
         components: [
@@ -165,9 +159,9 @@ export const abi = [
             type: 'string',
           },
         ],
-        internalType: 'struct SupplementTracker.SupplementInfo',
+        internalType: 'struct SupplementTracker.SupplementInfo[]',
         name: '',
-        type: 'tuple',
+        type: 'tuple[]',
       },
     ],
     stateMutability: 'view',

@@ -1,6 +1,6 @@
 <p>
   <mat-toolbar>
-    <span>Supplement Analysis with Blockchain</span>
+    <span>Supplement Tracker</span>
   </mat-toolbar>
 </p>
 <div class="content-general row">
@@ -9,12 +9,14 @@
     <input
       matInput
       (keyup)="applyFilter($event)"
-      placeholder="Ex. Mia"
+      placeholder="Ex. Whey Protein Gold"
       #input
     />
   </mat-form-field>
   <div class="col-8 coluna-bt-cad">
-    <button id="bt-cad" mat-raised-button (click)="openDialog()">Cadastrar Produto</button>
+    <button id="bt-cad" mat-raised-button (click)="openDialog()">
+      Cadastrar Suplemento
+    </button>
   </div>
   <div class="mat-elevation-z8 tabela-list">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -23,19 +25,16 @@
         <td mat-cell *matCellDef="let row">{{ row.id }}</td>
       </ng-container>
 
-      <!-- Progress Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let row">{{ row.name }}</td>
       </ng-container>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="manufacturer">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer</th>
         <td mat-cell *matCellDef="let row">{{ row.manufacturer }}</td>
       </ng-container>
 
-      <!-- Fruit Column -->
       <ng-container matColumnDef="proteins">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Protein Content
@@ -53,17 +52,45 @@
         <td mat-cell *matCellDef="let row">{{ row.fats }}g</td>
       </ng-container>
 
-      <ng-container matColumnDef="expiry_date">
+      <ng-container matColumnDef="expiryDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Expiry date</th>
         <td mat-cell *matCellDef="let row">{{ row.expiryDate }}</td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			<ng-container matColumnDef="signSupplement">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            (click)="signSupplement(row.id)"
+            [class.expanded]="expandedRow === row.id"
+          >
+					<mat-icon>vpn_key</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-      <!-- Row shown when there is no matching data. -->
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            (click)="openDetails(row.id)"
+            [class.expanded]="expandedRow === row.id"
+          >
+					<mat-icon>security</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns; let i = index"
+      ></tr>
+
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">
+        <td class="mat-cell" colspan="8">
           No data matching the filter "{{ input.value }}"
         </td>
       </tr>

@@ -1,0 +1,19 @@
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+.content-border{
+    padding: 20px!important;
+}
+.mat-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.mat-column-signer,
+.mat-column-signature,
+.mat-column-messageHash {
+  max-width: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -13,8 +13,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CdkColumnDef } from '@angular/cdk/table';
+import { ModalDetailsComponent } from './modal-details/modal-details.component';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
-  declarations: [AppComponent, ModalCreateComponent],
+  declarations: [AppComponent, ModalCreateComponent, ModalDetailsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,8 +29,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTableModule,
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule, CdkColumnDef],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

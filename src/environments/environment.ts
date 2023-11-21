@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   web3: {
     contracts: {
-      supplementTracker: '0x84fe60870f5d9c5F1ED7B0440E8449DF9c23Bfad',
+      supplementTracker: '0xa5a82ED88cF30a3cd239C9F45825c06cEed60c6f',
     },
     account: {
       privateKey: '', // Metamask private key,

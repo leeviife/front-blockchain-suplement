@@ -1,0 +1,89 @@
+<div class="content-border">
+  <h1 mat-dialog-title>Supplement Details</h1>
+  <div class="example-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        placeholder="Placeholder"
+        [(ngModel)]="supplement.name"
+        [disabled]="true"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Manufacturer</mat-label>
+      <input
+        matInput
+        placeholder="Placeholder"
+        [(ngModel)]="supplement.manufacturer"
+        [disabled]="true"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Proteins</mat-label>
+      <input
+        matInput
+        placeholder="Placeholder"
+        [(ngModel)]="supplement.proteins"
+        [disabled]="true"
+      />
+    </mat-form-field>
+  </div>
+  <div class="example-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Carbs</mat-label>
+      <input
+        matInput
+        placeholder="Placeholder"
+        [(ngModel)]="supplement.carbs"
+        [disabled]="true"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fats</mat-label>
+      <input
+        matInput
+        placeholder="Placeholder"
+        [(ngModel)]="supplement.fats"
+        [disabled]="true"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="example-form-field">
+      <mat-label>Expiry Date</mat-label>
+      <input matInput [(ngModel)]="supplement.expiryDate" [disabled]="true" />
+    </mat-form-field>
+  </div>
+  <div class="example-container">
+    <h2>Signatures</h2>
+    <table mat-table [dataSource]="signatures">
+      <ng-container matColumnDef="signer">
+        <th mat-header-cell *matHeaderCellDef>Signer</th>
+        <td mat-cell *matCellDef="let signature">{{ signature.signer }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="signature">
+        <th mat-header-cell *matHeaderCellDef>Signature</th>
+        <td mat-cell *matCellDef="let signature">{{ signature.signature }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="messageHash">
+        <th mat-header-cell *matHeaderCellDef>Message Hash</th>
+        <td mat-cell *matCellDef="let signature">
+          {{ signature.messageHash }}
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="['signer', 'signature', 'messageHash']"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['signer', 'signature', 'messageHash']"
+      ></tr>
+    </table>
+  </div>
+</div>

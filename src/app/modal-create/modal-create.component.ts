@@ -1,6 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from '../home/home.component';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { SupplementInfo } from '../home/home.component';
+import { getSupplementTrackerContract } from '../shared/web3';
+import { errors } from 'web3';
 
 @Component({
   selector: 'app-modal-create',
@@ -8,12 +10,38 @@ import { DialogData } from '../home/home.component';
   styleUrls: ['./modal-create.component.css'],
 })
 export class ModalCreateComponent {
-  constructor(
-    public dialogRef: MatDialogRef<ModalCreateComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  public formData: SupplementInfo = {
+    name: '',
+    manufacturer: '',
+    proteins: 0,
+    carbs: 0,
+    fats: 0,
+    expiryDate: '',
+  };
 
-  onNoClick(): void {
+  constructor(public dialogRef: MatDialogRef<ModalCreateComponent>) {}
+
+  onCancel(): void {
     this.dialogRef.close();
+  }
+
+  async onSave(): Promise<void> {
+    const supplementTracker = getSupplementTrackerContract();
+    if (!supplementTracker) return;
+
+    try {
+      await supplementTracker.addSupplement(
+        this.formData.name,
+        this.formData.manufacturer,
+        this.formData.proteins,
+        this.formData.carbs,
+        this.formData.fats,
+        this.formData.expiryDate.toString()
+      );
+
+      this.dialogRef.close();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

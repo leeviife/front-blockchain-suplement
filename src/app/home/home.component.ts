@@ -11,6 +11,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ModalCreateComponent } from '../modal-create/modal-create.component';
 import { getSupplementTrackerContract } from '../shared/web3';
+import { NgFor, NgIf } from '@angular/common';
+import { ModalDetailsComponent } from '../modal-details/modal-details.component';
 
 export interface SupplementInfo {
   name: string;
@@ -20,10 +22,7 @@ export interface SupplementInfo {
   fats: number;
   expiryDate: string;
 }
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -40,11 +39,11 @@ export interface DialogData {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    NgFor,
+    NgIf,
   ],
 })
 export class HomeComponent {
-  animal: string | undefined;
-  name: string | undefined;
   displayedColumns: string[] = [
     'id',
     'name',
@@ -52,25 +51,29 @@ export class HomeComponent {
     'proteins',
     'carbs',
     'fats',
-    'expiry_date',
+    'expiryDate',
+    'signSupplement',
+    'details',
   ];
 
   dataSource: MatTableDataSource<SupplementInfo>;
+  supplementTracker: any;
+  expandedRow: number | null = null;
 
   constructor(public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<SupplementInfo>([]);
+    this.supplementTracker = getSupplementTrackerContract();
   }
 
-  async ngOnInit() {
-    const supplementTracker = getSupplementTrackerContract();
-    if (!supplementTracker) return;
+  async fetchSupplements() {
+    if (!this.supplementTracker) return;
 
-    const supplement = (await supplementTracker.getSupplementInfo(
-      0
-    )) as SupplementInfo;
+    const supplements =
+      (await this.supplementTracker.getSupplements()) as SupplementInfo[];
 
     this.dataSource = new MatTableDataSource<SupplementInfo>(
-      [supplement].map((supplement) => ({
+      supplements.map((supplement, index) => ({
+        id: index,
         name: supplement.name,
         manufacturer: supplement.manufacturer,
         proteins: supplement.proteins,
@@ -81,15 +84,13 @@ export class HomeComponent {
     );
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ModalCreateComponent, {
-      data: { name: this.name, animal: this.animal },
-    });
+  async ngOnInit() {
+    this.fetchSupplements();
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.animal = result;
-    });
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalCreateComponent);
+    dialogRef.afterClosed().subscribe(() => this.fetchSupplements());
   }
 
   applyFilter(event: Event) {
@@ -99,5 +100,22 @@ export class HomeComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  async openDetails(rowId: number) {
+    const supplement = this.dataSource.data[rowId];
+    const signatures = await this.supplementTracker.getSupplementSignatures(
+      rowId
+    );
+    this.dialog.open(ModalDetailsComponent, {
+      data: { supplement, signatures },
+      minWidth: '43.5rem',
+    });
+  }
+
+  async signSupplement(rowId: number) {
+    const supplement = this.dataSource.data[rowId];
+    await this.supplementTracker.signSupplement(rowId, supplement);
+    this.fetchSupplements();
   }
 }
