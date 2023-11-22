@@ -2,6 +2,24 @@ export const abi = [
   {
     inputs: [
       {
+        internalType: 'uint256',
+        name: '_supplementId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'address',
+        name: '_signer',
+        type: 'address',
+      },
+    ],
+    name: 'addAuthorizedSigner',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'string',
         name: '_name',
         type: 'string',
@@ -51,24 +69,54 @@ export const abi = [
     inputs: [
       {
         internalType: 'uint256',
-        name: '',
+        name: '_supplementId',
         type: 'uint256',
       },
       {
         internalType: 'address',
-        name: '',
+        name: '_signer',
         type: 'address',
       },
     ],
-    name: 'authorizedSigners',
-    outputs: [
+    name: 'removeAuthorizedSigner',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: 'uint256',
+        name: '_supplementId',
+        type: 'uint256',
       },
     ],
-    stateMutability: 'view',
+    name: 'revokeSignature',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '_supplementId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'bytes',
+        name: '_signature',
+        type: 'bytes',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_messageHash',
+        type: 'bytes32',
+      },
+    ],
+    name: 'signSupplement',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -85,47 +133,6 @@ export const abi = [
         internalType: 'address[]',
         name: '',
         type: 'address[]',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '_supplementId',
-        type: 'uint256',
-      },
-    ],
-    name: 'getSupplementSignatures',
-    outputs: [
-      {
-        components: [
-          {
-            internalType: 'address',
-            name: 'signer',
-            type: 'address',
-          },
-          {
-            internalType: 'bytes32',
-            name: 'messageHash',
-            type: 'bytes32',
-          },
-          {
-            internalType: 'bytes',
-            name: 'signature',
-            type: 'bytes',
-          },
-          {
-            internalType: 'bool',
-            name: 'revoked',
-            type: 'bool',
-          },
-        ],
-        internalType: 'struct SupplementTracker.SupplementSignature[]',
-        name: '',
-        type: 'tuple[]',
       },
     ],
     stateMutability: 'view',
@@ -189,55 +196,37 @@ export const abi = [
         type: 'uint256',
       },
     ],
-    name: 'revokeSignature',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
+    name: 'getSupplementSignatures',
+    outputs: [
       {
-        internalType: 'uint256',
-        name: '_supplementId',
-        type: 'uint256',
-      },
-      {
-        internalType: 'address',
-        name: '_signer',
-        type: 'address',
-      },
-      {
-        internalType: 'bool',
-        name: '_authorization',
-        type: 'bool',
-      },
-    ],
-    name: 'setSignerAuthorization',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '_supplementId',
-        type: 'uint256',
-      },
-      {
-        internalType: 'bytes',
-        name: '_signature',
-        type: 'bytes',
-      },
-      {
-        internalType: 'bytes32',
-        name: '_messageHash',
-        type: 'bytes32',
+        components: [
+          {
+            internalType: 'address',
+            name: 'signer',
+            type: 'address',
+          },
+          {
+            internalType: 'bytes32',
+            name: 'messageHash',
+            type: 'bytes32',
+          },
+          {
+            internalType: 'bytes',
+            name: 'signature',
+            type: 'bytes',
+          },
+          {
+            internalType: 'bool',
+            name: 'revoked',
+            type: 'bool',
+          },
+        ],
+        internalType: 'struct SupplementTracker.SupplementSignature[]',
+        name: '',
+        type: 'tuple[]',
       },
     ],
-    name: 'signSupplement',
-    outputs: [],
-    stateMutability: 'nonpayable',
+    stateMutability: 'view',
     type: 'function',
   },
   {

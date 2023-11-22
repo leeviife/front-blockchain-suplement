@@ -125,8 +125,8 @@ export const getSupplementTrackerContract = () => {
 
       supplementsWithSignatures.push({
         ...supplement,
-        signatures,
-        authorizedSigners,
+        signatures: signatures || [],
+        authorizedSigners: authorizedSigners || [],
       });
     }
 
